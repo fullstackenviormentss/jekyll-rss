@@ -15,6 +15,8 @@ Place the rssgenerator.rb file in your jekyll _plugins directory and set the req
     rss_name       - (optional) the name of the rss file (if not specified "rss.xml" will be used)
     rss_post_limit - (optional) the number of posts in the feed
 
+Requires the [maruku](https://github.com/bhollis/maruku) gem to be installed.
+
 ## License
 
 This plugin is released under the MIT license.  

@@ -34,6 +34,7 @@ module Jekyll
     # Returns nothing
     def generate(site)
       require 'rss'
+      require 'maruku'
 
       # Create the rss with the help of the RSS module
       rss = RSS::Maker.make("2.0") do |maker|
@@ -50,7 +51,7 @@ module Jekyll
           maker.items.new_item do |item|
             item.title = post.title
             item.link = "#{site.config['url']}#{post.url}"
-            item.description = post.excerpt
+            item.description = Maruku.new(post.excerpt).to_html
             item.updated = post.date
           end
         end
