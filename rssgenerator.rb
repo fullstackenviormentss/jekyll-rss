@@ -35,7 +35,7 @@ module Jekyll
     def generate(site)
       require 'rss'
 
-      parser = get_markdown_parser(site.config)
+      parser = Jekyll::Converters::Markdown.new(site.config)
 
       # Create the rss with the help of the RSS module
       rss = RSS::Maker.make("2.0") do |maker|
@@ -107,28 +107,6 @@ module Jekyll
     # Returns nothing
     def ensure_dir(path)
       FileUtils.mkdir_p(path)
-    end
-
-    # Gets a parser object for the parser specified in the configuration
-    #
-    # config - the site's configuration hash
-    #
-    # Returns a parser or raises exception if one isn't found
-    def get_markdown_parser(config)
-      return case config['markdown']
-        when 'redcarpet'
-          Jekyll::Converters::Markdown::RedcarpetParser.new config
-        when 'kramdown'
-          Jekyll::Converters::Markdown::KramdownParser.new config
-        when 'rdiscount'
-          Jekyll::Converters::Markdown::RDiscountParser.new config
-        when 'maruku'
-          Jekyll::Converters::Markdown::MarukuParser.new config
-        else
-          STDERR.puts "Invalid Markdown processor: #{config['markdown']}"
-          STDERR.puts "  Valid options are [ maruku | rdiscount | kramdown | redcarpet ]"
-          raise FatalException.new("Invalid Markdown process: #{config['markdown']}")
-      end
     end
 
   end
