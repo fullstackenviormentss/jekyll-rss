@@ -35,8 +35,6 @@ module Jekyll
     def generate(site)
       require 'rss'
 
-      parser = Jekyll::Converters::Markdown.new(site.config)
-
       # Create the rss with the help of the RSS module
       rss = RSS::Maker.make("2.0") do |maker|
         maker.channel.title = site.config['name']
@@ -49,12 +47,13 @@ module Jekyll
         post_limit = (site.config['rss_post_limit'] - 1 rescue site.posts.count)
 
         site.posts.reverse[0..post_limit].each do |post|
+          post.render(site.layouts, site.site_payload)
           maker.items.new_item do |item|
             link = "#{site.config['url']}#{post.url}"
             item.guid.content = link
             item.title = post.title
             item.link = link
-            item.description = parser.convert(post.excerpt)
+            item.description = post.excerpt
             item.updated = post.date
           end
         end
