@@ -18,7 +18,7 @@
 # Source: http://github.com/agelber/jekyll-rss
 #
 # Distributed under the MIT license
-# Copyright Assaf Gelber 2013
+# Copyright Assaf Gelber 2014
 
 module Jekyll
   class RssFeed < Page; end
