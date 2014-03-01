@@ -107,6 +107,5 @@ module Jekyll
     def ensure_dir(path)
       FileUtils.mkdir_p(path)
     end
-
   end
 end
