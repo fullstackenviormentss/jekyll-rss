@@ -34,6 +34,7 @@ module Jekyll
     # Returns nothing
     def generate(site)
       require 'rss'
+      require 'cgi/util'
 
       # Create the rss with the help of the RSS module
       rss = RSS::Maker.make("2.0") do |maker|
@@ -61,6 +62,9 @@ module Jekyll
             # to be on the safe side we better wrap it in CDATA tags
             item.description = "<![CDATA[" + post.excerpt.gsub(%r{</?[^>]+?>}, '') + "]]>"
 
+            # the whole post content, wrapped in CDATA tags
+            item.content_encoded = "<![CDATA[" + post.content + "]]>"
+
             item.updated = post.date
           end
         end
@@ -71,7 +75,13 @@ module Jekyll
       rss_name = site.config['rss_name'] || "rss.xml"
       full_path = File.join(site.dest, rss_path)
       ensure_dir(full_path)
-      File.open("#{full_path}#{rss_name}", "w") { |f| f.write(rss) }
+
+      # We only have HTML in our content_encoded field which is surrounded by CDATA.
+      # So it should be safe to unescape the HTML.
+      feed = CGI::unescapeHTML(rss.to_s)
+
+      # File.open("#{full_path}#{rss_name}", "w") { |f| f.write(rss) }
+      File.open("#{full_path}#{rss_name}", "w") { |f| f.write(feed) }
 
       # Add the feed page to the site pages
       site.pages << Jekyll::RssFeed.new(site, site.dest, rss_path, rss_name)
