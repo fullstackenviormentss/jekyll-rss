@@ -58,7 +58,8 @@ module Jekyll
             # item.description = post.excerpt
             # as with Jekyll 2.3.0 the post.excerpt function returns a html encoded string
             # however, description should be a text only string, so we have to remove all html tags
-            item.description = post.excerpt.gsub(%r{</?[^>]+?>}, '')
+            # to be on the safe side we better wrap it in CDATA tags
+            item.description = "<![CDATA[" + post.excerpt.gsub(%r{</?[^>]+?>}, '') + "]]>"
 
             item.updated = post.date
           end
