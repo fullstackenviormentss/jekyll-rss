@@ -54,7 +54,12 @@ module Jekyll
             item.guid.content = link
             item.title = post.title
             item.link = link
-            item.description = post.excerpt
+
+            # item.description = post.excerpt
+            # as with Jekyll 2.3.0 the post.excerpt function returns a html encoded string
+            # however, description should be a text only string, so we have to remove all html tags
+            item.description = post.excerpt.gsub(%r{</?[^>]+?>}, '')
+
             item.updated = post.date
           end
         end
