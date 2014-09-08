@@ -56,10 +56,9 @@ module Jekyll
             item.title = post.title
             item.link = link
 
-            # item.description = post.excerpt
-            # as with Jekyll 2.3.0 the post.excerpt function returns a html encoded string
-            # however, description should be a text only string, so we have to remove all html tags
-            # to be on the safe side we better wrap it in CDATA tags
+            # As with Jekyll 2.3.0 the post.excerpt function returns a html encoded string.
+            # However, description should be a text only string, so we have to remove all html tags.
+            # To be on the safe side we better wrap it in CDATA tags.
             item.description = "<![CDATA[" + post.excerpt.gsub(%r{</?[^>]+?>}, '') + "]]>"
 
             # the whole post content, wrapped in CDATA tags
@@ -80,7 +79,6 @@ module Jekyll
       # So it should be safe to unescape the HTML.
       feed = CGI::unescapeHTML(rss.to_s)
 
-      # File.open("#{full_path}#{rss_name}", "w") { |f| f.write(rss) }
       File.open("#{full_path}#{rss_name}", "w") { |f| f.write(feed) }
 
       # Add the feed page to the site pages
