@@ -2,6 +2,8 @@
 
 Automatically generates and RSS 2.0 feed from your posts at the specified path.
 
+__IMPORTANT:__ For security reasons, Github dosen't allow plugins when deploying with Github Pages, so if you are intending to use Github Pages, this repo is not for you. [Try this one, maybe..](https://github.com/snaptortoise/jekyll-rss-feeds)
+
 ## Usage
 
 Place the rssgenerator.rb file in your jekyll _plugins directory and set the required configuration attributes in your _config.yml file. The attributes are:  
