@@ -2,7 +2,7 @@
 
 Automatically generates and RSS 2.0 feed from your posts at the specified path.
 
-__IMPORTANT:__ For security reasons, Github dosen't allow plugins when deploying with Github Pages, so if you are intending to use Github Pages, this repo is not for you. [Try this one, maybe..](https://github.com/snaptortoise/jekyll-rss-feeds)
+__IMPORTANT:__ Since Jekyll v2.0.0.alpha.2 there is a `feed.xml` file in the default site template. It is probably better to use that than this plugin, unless you have a specific reason not to.
 
 ## Usage
 
