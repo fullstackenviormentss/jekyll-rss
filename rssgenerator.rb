@@ -21,7 +21,19 @@
 # Copyright Assaf Gelber 2014
 
 module Jekyll
-  class RssFeed < Page; end
+  class RssFeed < StaticFile
+    def initialize(site, base, dir, name, content)
+      @site = site
+      @base = base
+      @dir = dir
+      @name = name
+      @content = content
+    end
+
+    def write(dest)
+      File.open(destination(dest), "w") { |f| f.write(@content) }
+    end
+  end
 
   class RssGenerator < Generator
     priority :low
@@ -74,10 +86,8 @@ module Jekyll
       # So it should be safe to unescape the HTML.
       feed = CGI::unescapeHTML(rss.to_s)
 
-      File.open("#{full_path}#{rss_name}", "w") { |f| f.write(feed) }
-
       # Add the feed page to the site pages
-      site.pages << Jekyll::RssFeed.new(site, site.dest, rss_path, rss_name)
+      site.static_files << Jekyll::RssFeed.new(site, site.dest, rss_path, rss_name, feed)
     end
 
     private
